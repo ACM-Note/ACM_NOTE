@@ -154,7 +154,7 @@ void tarjan(int u,int pre)
             tarjan(to,u);
             low[u]=min(low[u],low[to]);
             if(low[to]>dfn[u])
-                printf("%d--%d\n",u,to);///表示u到to是一条割边
+                printf("%d--%d\n",u,to);//表示u到to是一条割边
         }
         else if(to!=pre)
             low[u]=min(low[u],dfn[to]);
@@ -229,7 +229,9 @@ struct edge
 	int next, to, from;
 }e[M];
 
-int f, r, x, y, ecnt = -1, head[M], dfn[M], low[M], scc[M], sta[M], top, cnt, rdeg[M], ans, idx;
+int f, r, x, y, ecnt = -1;
+int head[M], dfn[M], low[M], scc[M];
+int sta[M], top, cnt, rdeg[M], ans, idx;
 bool vis[M], pd[M];
 
 void add(int x, int y)
@@ -247,8 +249,6 @@ void tarjan(int x, int g)
 	dfn[x] = low[x] = ++idx;
 	for (int i = head[x]; ~i; i = e[i].next)
 	{
-		//if(pd[i]) continue;
-		//pd[i] = pd[i^1] = 1;
 		if (e[i].to == g && !flag)
 		{
 			flag = 1;
@@ -274,7 +274,10 @@ int main()
 	memset(head, -1, sizeof(head));
 	f = read(), r = read();
 	rep(i, 1, r) 
-		x = read(), y = read(), add(x, y), add(y, x);
+	{
+		x = read(), y = read();
+		add(x, y), add(y, x);
+	}
 	rep(i, 1, f) 
 		if (!dfn[i]) 
 			tarjan(i, i);
@@ -283,7 +286,8 @@ int main()
 		for (int j = head[i]; ~j; j = e[j].next)
 		{
 			int r1 = scc[e[j].to], r2 = scc[i];
-			if (r1 != r2) rdeg[r1]++, rdeg[r2]++;
+			if (r1 != r2)
+			rdeg[r1]++, rdeg[r2]++;
 		}
 	}
 	rep(i, 1, cnt) 
